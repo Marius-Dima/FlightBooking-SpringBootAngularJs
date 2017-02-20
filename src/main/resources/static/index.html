@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Flight Booking Operations</title>
+    <link rel="stylesheet" href="css/bootstrap.css" th:href="@{css/bootstrap.css}"/>
+    <script type="text/javascript" src="js/angular.min.js" th:src="@{js/angular.min.js}"></script>
+    <script type="text/javascript" src="js/app.js" th:src="@{js/app.js}"></script>
+</head>
+
+<body ng-app="app">
+
+<header>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Flight Booking App</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div ng-controller="bookingsController">
+    <div class="row">
+        <div class="col-lg-offset-2 col-lg-7">
+            <div class="btn-group" role="group">
+
+                <button ng-click="showAll()" type="button" class="btn btn-default">All</button>
+                <button ng-click="affordable()" type="button" class="btn btn-default">Less than 100$</button>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th># of Tickets</th>
+                    <th>Price/Ticket</th>
+                    <th>Total Price</th>
+                    <th style="width: 30px"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="booking in bookings">
+                    <td>
+                        <span data-ng-hide="editMode">{{booking.destination}}</span>
+                        <input type="text" class="col-xs-7" data-ng-show="editMode"
+                               data-ng-model="booking.destination"/>
+                    </td>
+                    <td>
+                        <span data-ng-hide="editMode">{{booking.numberOfTickets}}</span>
+                        <input type="text" class="col-xs-4" data-ng-show="editMode"
+                               data-ng-model="booking.numberOfTickets"/>
+                    </td>
+                    <td>
+                        <span data-ng-hide="editMode">{{booking.price}}</span>
+                        <input type="text" class="col-xs-5" data-ng-show="editMode"
+                               data-ng-model="booking.price"/>
+                    </td>
+                    <td>{{booking.totalPrice}}</td>
+                    <td>
+                        <button type="submit" class="btn btn-primary" data-ng-hide="editMode"
+                                data-ng-click="editMode = true">Edit
+                        </button>
+                        <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false; edit(booking)"
+                                class="btn btn-success">Save
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" data-ng-show="editMode" data-ng-click="editMode = false; showAll()"
+                                class="btn btn-warning">Cancel
+                        </button>
+                        <button class="btn btn-danger" data-ng-hide="editMode" ng-click="deleteBooking(booking.id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="col-xs-7" data-ng-show="addMode"
+                               data-ng-model="booking.destination"/>
+                    </td>
+                    <td>
+                        <input type="text" class="col-xs-4" data-ng-show="addMode"
+                               data-ng-model="booking.numberOfTickets"/>
+                    </td>
+                    <td>
+                        <input type="text" class="col-xs-5" data-ng-show="addMode"
+                               data-ng-model="booking.price"/>
+                    </td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-success" data-ng-hide="addMode" ng-click="addMode = true">Add</button>
+                        <button type="submit" data-ng-show="addMode" data-ng-click="addMode = false; add(booking)"
+                                class="btn btn-success">Save
+                        </button>
+                    </td>
+                    <td>
+                        <button type="submit" data-ng-show="addMode" data-ng-click="addMode = false; showAll()"
+                                class="btn btn-warning">Cancel
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
