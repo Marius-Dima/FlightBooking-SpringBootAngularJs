@@ -14,6 +14,8 @@ public interface BookingService {
 
     FlightBooking save(FlightBooking flightBooking);
 
+    FlightBooking update(FlightBooking flightBooking);
+
     Collection<FlightBooking> saveAll(Collection<FlightBooking> flightBookings);
 
     void delete(Long id);

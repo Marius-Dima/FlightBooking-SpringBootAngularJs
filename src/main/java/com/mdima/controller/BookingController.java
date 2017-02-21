@@ -50,13 +50,10 @@ public class BookingController {
     @PutMapping(value = "bookings/{id}")
     @ApiMethod(description = "Update the flight booking which has the provided Id")
     public ResponseEntity<Collection<FlightBooking>> update(@ApiPathParam(name = "id", description = "Flight Booking id to be updated") @PathVariable("id") long id, @ApiBodyObject(clazz = FlightBooking.class) @RequestBody FlightBooking flightBooking) {
-        final FlightBooking currentBooking = bookingService.findOne(id);
+        final FlightBooking updatedFlightBooking = bookingService.update(flightBooking);
 
-        if (currentBooking == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        currentBooking.udpateBooking(flightBooking);
-        bookingService.save(currentBooking);
+        if (updatedFlightBooking == null)
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
     }

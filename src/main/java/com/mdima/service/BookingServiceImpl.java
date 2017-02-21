@@ -5,9 +5,9 @@ import com.mdima.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
 import java.util.Collection;
 
 @Service
@@ -44,6 +44,18 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public FlightBooking update(FlightBooking flightBooking) {
+        final FlightBooking existingBooking = findOne(flightBooking.getId());
+
+        if (existingBooking == null)
+            throw new NoResultException("Requested entity was not found");
+
+        existingBooking.udpateBooking(flightBooking);
+
+        return bookingRepository.save(existingBooking);
+    }
+
+    @Override
     public Collection<FlightBooking> saveAll(Collection<FlightBooking> flightBookings) {
         return bookingRepository.save(flightBookings);
     }
@@ -55,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @CacheEvict(value = "channel", allEntries = true)
+    @CacheEvict(value = "bookings", allEntries = true)
     public void evictCache() {
 
     }
