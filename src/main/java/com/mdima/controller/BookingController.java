@@ -34,6 +34,17 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "bookings/{id}")
+    @ApiMethod(description = "Display all available flight bookings")
+    public ResponseEntity<FlightBooking> findOne(@PathVariable("id") Long id) {
+        final FlightBooking flightBooking = bookingService.findOne(id);
+
+        if (flightBooking == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(flightBooking, HttpStatus.OK);
+    }
+
     @GetMapping(value = "bookings/affordable/{price}")
     @ApiMethod(description = "Get all flight bookings with ticket price less than the provided value")
     public ResponseEntity<Collection<FlightBooking>> getAffordableFlights(@ApiPathParam(name = "price", description = "Affordable price should be less than this value") @PathVariable double price) {
