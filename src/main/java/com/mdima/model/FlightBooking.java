@@ -1,5 +1,6 @@
 package com.mdima.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jsondoc.core.annotation.ApiObject;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @ApiObject
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FlightBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,13 +37,13 @@ public class FlightBooking {
         this.price = price;
     }
 
-    public void udpateBooking(FlightBooking booking){
+    public void udpateBooking(FlightBooking booking) {
         this.destination = booking.destination;
         this.numberOfTickets = booking.numberOfTickets;
         this.price = booking.price;
     }
 
-    public double getTotalPrice(){
+    public double getTotalPrice() {
         return price * numberOfTickets;
     }
 }

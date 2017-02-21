@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import static org.junit.Assert.*;
 
 @Transactional
-public class BookingControler extends AbstractControllerTest {
+public class BookingControllerTest extends AbstractControllerTest {
 
     @Autowired
     private BookingService bookingService;

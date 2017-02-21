@@ -9,6 +9,7 @@ import org.jsondoc.core.annotation.ApiPathParam;
 import org.jsondoc.core.pojo.ApiStage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,15 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @GetMapping(value = "bookings")
+    @RequestMapping(
+            value = "bookings",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiMethod(description = "Display all available flight bookings")
     public ResponseEntity<Collection<FlightBooking>> findAll() {
-        return new ResponseEntity<>(bookingService.findAll(), HttpStatus.OK);
+        Collection<FlightBooking> all = bookingService.findAll();
+        System.out.println("wtv");
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping(value = "bookings/{id}")
